@@ -24,3 +24,15 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+:root {
+  --font-heading: var(--font-oswald);
+  --font-body: var(--font-inter);
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+.heading-font {
+  font-family: var(--font-heading);
+}
