@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import PlanCard from "../components/PlanCard";
 import { usePlan } from "../context/PlanContext";
 
@@ -8,8 +8,28 @@ export default function MyPlanPage() {
   const { plan, saved } = usePlan();
 
   const [tab, setTab] = useState<"plan" | "saved">("plan");
+  const [sortBy, setSortBy] = useState<
+    "duration" | "calories" | "rating"
+  >("duration");
 
   const workouts = tab === "plan" ? plan : saved;
+
+  const sortedWorkouts = useMemo(() => {
+    const items = [...workouts];
+
+    switch (sortBy) {
+      case "calories":
+        return items.sort(
+          (a, b) => a.caloriesBurned - b.caloriesBurned
+        );
+
+      case "rating":
+        return items.sort((a, b) => b.rating - a.rating);
+
+      default:
+        return items.sort((a, b) => a.duration - b.duration);
+    }
+  }, [workouts, sortBy]);
 
   const totalMinutes = plan.reduce(
     (sum, item) => sum + item.duration,
@@ -24,11 +44,8 @@ export default function MyPlanPage() {
   return (
     <main className="min-h-screen bg-[#0b0d0c] px-5 py-10 text-white">
       <section className="mx-auto max-w-7xl">
-        <p className="mb-2 text-xs font-bold uppercase tracking-[4px] text-[#ccff00]">
-          My Plan
-        </p>
 
-        <h1 className="heading-font text-6xl uppercase">
+        <h1 className="heading-font text-5xl uppercase md:text-6xl">
           MY PLAN
         </h1>
 
@@ -43,7 +60,7 @@ export default function MyPlanPage() {
               Exercises
             </p>
 
-            <h2 className="mt-3 text-4xl font-bold">
+            <h2 className="mt-3 text-4xl font-bold text-[#ccff00]">
               {plan.length}
             </h2>
           </div>
@@ -69,34 +86,71 @@ export default function MyPlanPage() {
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="mt-10 flex gap-3">
-          <button
-            onClick={() => setTab("plan")}
-            className={`rounded-full px-6 py-3 font-semibold transition ${
-              tab === "plan"
-                ? "bg-[#ccff00] text-black"
-                : "border border-white/20 text-white"
-            }`}
-          >
-            Today's Plan ({plan.length})
-          </button>
+        {/* Tabs + Sort */}
+        <div className="mt-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
 
-          <button
-            onClick={() => setTab("saved")}
-            className={`rounded-full px-6 py-3 font-semibold transition ${
-              tab === "saved"
-                ? "bg-[#ccff00] text-black"
-                : "border border-white/20 text-white"
-            }`}
-          >
-            Saved ({saved.length})
-          </button>
+          <div className="flex w-fit rounded-2xl bg-[#171717] p-1">
+            <button
+              onClick={() => setTab("plan")}
+              className={`rounded-xl px-5 py-3 text-sm font-semibold transition ${
+                tab === "plan"
+                  ? "bg-[#ccff00] text-black"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              Today's Plan
+            </button>
+
+            <button
+              onClick={() => setTab("saved")}
+              className={`rounded-xl px-5 py-3 text-sm font-semibold transition ${
+                tab === "saved"
+                  ? "bg-[#ccff00] text-black"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              Saved
+            </button>
+          </div>
+
+          <div className="w-full max-w-sm">
+            <label className="mb-2 block text-sm font-semibold text-white">
+              Sort By
+            </label>
+
+            <div className="rounded-full border-2 border-white p-1">
+              <select
+                value={sortBy}
+                onChange={(e) =>
+                  setSortBy(
+                    e.target.value as
+                      | "duration"
+                      | "calories"
+                      | "rating"
+                  )
+                }
+                className="w-full rounded-full bg-[#0b0d0c] px-5 py-3 text-white outline-none"
+              >
+                <option value="duration">
+                  Duration
+                </option>
+
+                <option value="calories">
+                  Calories
+                </option>
+
+                <option value="rating">
+                  Rating
+                </option>
+              </select>
+            </div>
+          </div>
+
         </div>
 
-        {/* Content */}
+        {/* Cards */}
         <div className="mt-10">
-          {workouts.length === 0 ? (
+          {sortedWorkouts.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-white/10 py-20 text-center">
               <h2 className="heading-font text-4xl uppercase">
                 NOTHING HERE YET
@@ -108,7 +162,7 @@ export default function MyPlanPage() {
             </div>
           ) : (
             <div className="space-y-5">
-              {workouts.map((workout) => (
+              {sortedWorkouts.map((workout) => (
                 <PlanCard
                   key={workout.id}
                   workout={workout}
@@ -118,6 +172,7 @@ export default function MyPlanPage() {
             </div>
           )}
         </div>
+
       </section>
     </main>
   );

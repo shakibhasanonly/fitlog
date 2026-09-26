@@ -3,6 +3,8 @@ import { Inter, Oswald } from "next/font/google";
 import "./globals.css";
 
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
 import { PlanProvider } from "./context/PlanContext";
 import { Toaster } from "react-hot-toast";
 
@@ -35,6 +37,8 @@ export default function RootLayout({
           <Navbar />
 
           {children}
+
+          <Footer />
 
           <Toaster
             position="top-right"
