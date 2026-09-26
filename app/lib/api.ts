@@ -28,13 +28,13 @@ export async function getWorkouts(): Promise<Workout[]> {
   return res.json();
 }
 
-export async function getWorkout(id: string): Promise<Workout> {
+export async function getWorkout(id: string): Promise<Workout | null> {
   const res = await fetch(`${BASE_URL}/${id}`, {
     cache: "no-store",
   });
 
   if (!res.ok) {
-    throw new Error("Workout not found");
+    return null;
   }
 
   return res.json();

@@ -33,9 +33,7 @@ export default function Library() {
 
         {/* Heading */}
         <div className="mb-12 text-center lg:text-left">
-          <p className="mb-3 text-sm font-bold uppercase tracking-[5px] text-[#ccff00]">
-            Workout Library
-          </p>
+          
 
           <h2 className="heading-font text-5xl uppercase leading-none text-white md:text-6xl">
             THE LIBRARY
