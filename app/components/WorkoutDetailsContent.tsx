@@ -3,7 +3,6 @@ import {
   FaClock,
   FaFire,
   FaStar,
-  FaDumbbell,
 } from "react-icons/fa";
 
 import { Workout } from "../lib/api";
@@ -17,19 +16,19 @@ export default function WorkoutDetailsContent({
   workout,
 }: Props) {
   return (
-    <section className="mx-auto max-w-7xl px-5 py-12">
-      <div className="grid gap-12 lg:grid-cols-2">
+    <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
+      <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
 
         {/* Left */}
         <div>
-          <div className="overflow-hidden rounded-[32px] border border-white/10">
+          <div className="overflow-hidden rounded-3xl border border-white/10">
             <Image
               src={workout.image}
               alt={workout.name}
               width={900}
               height={900}
-              className="h-[650px] w-full object-cover"
               priority
+              className="h-[320px] w-full object-cover sm:h-[480px] lg:h-[650px]"
             />
           </div>
         </div>
@@ -41,22 +40,25 @@ export default function WorkoutDetailsContent({
             {workout.muscleGroups.map((group) => (
               <span
                 key={group}
-                className="rounded-full bg-[#ccff00] px-4 py-2 text-xs font-bold uppercase tracking-wider text-black"
+                className="rounded-full bg-[#ccff00] px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-black sm:px-4 sm:py-2"
               >
                 {group}
               </span>
             ))}
           </div>
 
-          <h1 className="heading-font text-5xl uppercase leading-none md:text-6xl">
+          <h1 className="heading-font text-4xl uppercase leading-none sm:text-5xl lg:text-6xl">
             {workout.name}
           </h1>
 
-          <p className="mt-6 text-lg leading-8 text-gray-400">
+          <p className="mt-5 text-base leading-7 text-gray-400 sm:text-lg sm:leading-8">
             {workout.description}
-          </p> 
-              <div className="mt-10 rounded-3xl border border-white/10 bg-[#171717] p-6">
-            <h2 className="mb-6 heading-font text-2xl uppercase">
+          </p>
+
+          {/* Specs */}
+          <div className="mt-8 rounded-3xl border border-white/10 bg-[#171717] p-5 sm:mt-10 sm:p-6">
+
+            <h2 className="heading-font mb-6 text-2xl uppercase">
               Key Specs
             </h2>
 
@@ -87,6 +89,7 @@ export default function WorkoutDetailsContent({
                   <FaClock />
                   Duration
                 </span>
+
                 <span>{workout.duration} min</span>
               </div>
 
@@ -95,6 +98,7 @@ export default function WorkoutDetailsContent({
                   <FaFire />
                   Calories
                 </span>
+
                 <span>{workout.caloriesBurned} kcal</span>
               </div>
 
@@ -103,30 +107,38 @@ export default function WorkoutDetailsContent({
                   <FaStar />
                   Rating
                 </span>
+
                 <span>{workout.rating}</span>
               </div>
 
             </div>
+
           </div>
 
-          <div className="mt-10">
-            <h2 className="mb-5 heading-font text-2xl uppercase">
+          {/* Instructions */}
+          <div className="mt-8 sm:mt-10">
+
+            <h2 className="heading-font mb-5 text-2xl uppercase">
               Instructions
             </h2>
 
             <ol className="space-y-4">
               {workout.instructions.map((step, index) => (
-                <li key={index} className="flex gap-4">
+                <li
+                  key={index}
+                  className="flex items-start gap-4"
+                >
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#ccff00] font-bold text-black">
                     {index + 1}
                   </div>
 
-                  <p className="text-gray-300">
+                  <p className="leading-7 text-gray-300">
                     {step}
                   </p>
                 </li>
               ))}
             </ol>
+
           </div>
 
           <WorkoutActions workout={workout} />
