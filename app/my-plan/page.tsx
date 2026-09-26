@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import PlanCard from "../components/PlanCard";
 import { usePlan } from "../context/PlanContext";
@@ -131,17 +132,9 @@ export default function MyPlanPage() {
                 }
                 className="w-full rounded-full bg-[#0b0d0c] px-5 py-3 text-white outline-none"
               >
-                <option value="duration">
-                  Duration
-                </option>
-
-                <option value="calories">
-                  Calories
-                </option>
-
-                <option value="rating">
-                  Rating
-                </option>
+                <option value="duration">Duration</option>
+                <option value="calories">Calories</option>
+                <option value="rating">Rating</option>
               </select>
             </div>
           </div>
@@ -152,6 +145,7 @@ export default function MyPlanPage() {
         <div className="mt-10">
           {sortedWorkouts.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-white/10 py-20 text-center">
+
               <h2 className="heading-font text-4xl uppercase">
                 NOTHING HERE YET
               </h2>
@@ -159,6 +153,14 @@ export default function MyPlanPage() {
               <p className="mt-3 text-gray-400">
                 Browse the library and add a lift to get today moving.
               </p>
+
+              <Link
+                href="/"
+                className="mt-8 inline-flex items-center rounded-full bg-[#ccff00] px-6 py-3 font-bold text-black transition hover:scale-105"
+              >
+                Go to Workouts
+              </Link>
+
             </div>
           ) : (
             <div className="space-y-5">

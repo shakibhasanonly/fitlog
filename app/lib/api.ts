@@ -1,4 +1,4 @@
-const BASE_URL = "https://api.abcz.workers.dev/api/fitlog";
+const BASE_URL = "https://api.api-store.workers.dev/api/fitlog";
 
 export type Workout = {
   id: number;
